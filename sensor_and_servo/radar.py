@@ -3,6 +3,7 @@ from gpiozero import DistanceSensor, AngularServo
 from time import sleep, time
 import servo_spin
 import os
+import graph
 
 def spin():
     exec(open('servo_spin.py').read())
@@ -26,6 +27,7 @@ def radar():
                 radar_data.append([angle, distance])
             elif data_passed is False:
                 print(radar_data)
+                graph.update_plot_from_list(radar_data)
                 radar_data = []
                 data_passed = True
             sleep(0.02)
