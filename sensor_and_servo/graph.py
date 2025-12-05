@@ -2,8 +2,6 @@ from polarchart import *
 import math
 import matplotlib
 
-points = [[50, 60],[120,90]]
-
 def update_plot_from_list(points):
     """
     Update the polar plot with a predefined list of points.
@@ -28,10 +26,8 @@ def update_plot_from_list(points):
         ax.plot(thetas, rs, marker='o', linestyle='-')
 
         # Set maximum radius to largest distance
-        ax.set_rmax(max(rs))
+        ax.set_rmax(100)
 
     ax.set_title("Polar Plot of Predefined Points")
     fig.canvas.draw()
     fig.canvas.flush_events()
-
-update_plot_from_list(points)

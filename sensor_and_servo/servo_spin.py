@@ -12,8 +12,8 @@ if __name__ == '__main__':
     try:
         while True:
             servo.min()
-            sleep(0.5)
+            sleep(0.50)
             servo.max()
-            sleep(0.5)
+            sleep(0.50)
     finally:
         servo.close()
