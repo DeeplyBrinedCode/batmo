@@ -194,5 +194,4 @@ def main():
         # or less often (e.g., every second), depending on your needs.
         get_data_from_rpi() 
 
-if __name__ == '__main__':
-    main()
+main()
