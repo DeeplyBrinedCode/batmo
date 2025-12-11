@@ -11,7 +11,7 @@ plt.ion()
 fig = plt.figure(figsize=(7, 7))
 ax = plt.subplot(111, projection='polar')
 
-ax.set_theta_zero_location("N")
+ax.set_theta_zero_location("W")
 ax.set_theta_direction(-1)
 ax.set_ylim(0, 300)
 ax.grid(True)
@@ -21,3 +21,4 @@ plt.pause(0.1)
 
 fig.canvas.draw()
 fig.canvas.flush_events()
+
