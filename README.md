@@ -46,6 +46,12 @@ Ultrasonic Reciever can be taped with electrical tape to Servo chassis
 
 Servo base can be taped with electrical tape to Pico-bot
 
+![IMG_1525](https://github.com/user-attachments/assets/16637ae7-d85f-4a66-ac73-3d791940334f)
+
+![IMG_1526](https://github.com/user-attachments/assets/43721ee4-abbe-42cd-a7ef-6b66f34bc959)
+
+![IMG_1527](https://github.com/user-attachments/assets/2dcc652c-ae4b-43b2-82d5-ca1e24266319)
+
 **Code Installation:**
 
 Replace SSID, PASSWORD, and RPI_SERVER_IP in pico/main.py with the relevant strings for your device
