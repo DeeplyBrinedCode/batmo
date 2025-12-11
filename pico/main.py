@@ -4,6 +4,7 @@ import urequests as requests
 import json
 import machine, utime
 from machine import Pin
+import adjustment
 
 # --- Configuration ---
 SSID = 'SU-ECE-LAB'
@@ -142,8 +143,7 @@ def get_data_from_rpi():
         print(f"Pico GET successful. Received list: {received_list}")
         
         # Example processing: check the first element of the list
-        if received_list and received_list[0] == "RPI_MSG_0":
-             print("Pico received initial message!")
+        print(recieved_list)
         
         return received_list
         
