@@ -64,3 +64,5 @@ Install files in /rpi directory to Raspberry Pi with git
 
 ![Batmo_Diagram](https://github.com/user-attachments/assets/74b4f707-f95b-4750-ace8-e83f0f5b76aa)
 
+Phone, Pico, and RPi must all be started independently. RPi starts a flask server then waits for data from the Pico. Once it recieves that data, in the form of a list, it turns it into a polar chart. It then displays that chart. The Pico-bot begins by connecting to the RPi's flask server, whiel simultaneously beginning a wifi server of its own. It begins to sweep the servo around a 180 degree area, taking angle and distance data at each step and adding that data to the list to send to the RPi. The Pico-bot also creates a URL using its ip address. The Phone can connect to the Pico-bot's wifi, and then access the web server using a web browser and typing in the created URL. The phone will then allow users to use a joystick to move the Pico-bot around. The joystick information is sent to the Pico-bot, which then rotates its motors accordingly.
+
