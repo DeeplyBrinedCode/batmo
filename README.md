@@ -1,6 +1,8 @@
 # batmo
 **Main repository for ECEGR 2000 final project**
 
+![IMG_1524](https://github.com/user-attachments/assets/b44fb513-f408-4014-be90-3ee305e28877)
+
 **Plan:**
 Make an remote controlled car that can detect obstacles
 
