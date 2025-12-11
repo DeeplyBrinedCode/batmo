@@ -2,7 +2,6 @@ import matplotlib
 matplotlib.use("TkAgg")
 
 import matplotlib.pyplot as plt
-import numpy as np
 import time
 
 # Polar radar plot setup
@@ -20,5 +19,6 @@ plt.pause(0.1)
 
 fig.canvas.draw()
 fig.canvas.flush_events()
+
 
 
