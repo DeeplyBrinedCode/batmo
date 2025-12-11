@@ -15,9 +15,8 @@ Attributes:
     ECHO_PIN (int): The GPIO pin on the Pico board to which the distance sensor's echo should be connected.
     SOUND_SPEED_CM_PER_US (int): The speed of sound in centimeters per microsecond.
     MAX_DISTANCE_CM (int): The maximum distance for the distance sensor.
-    pwm
+    sensor_data (list of list of int): Set of data points to send to Raspberry Pi.
 """
-
 import network
 import time
 import urequests as requests
@@ -34,16 +33,16 @@ RPI_PORT = 5000
 PICO_DATA_URL = f"http://{RPI_SERVER_IP}:{RPI_PORT}/pico_data"
 RPI_DATA_URL = f"http://{RPI_SERVER_IP}:{RPI_PORT}/get_rpi_data"
 
-SERVO_PIN = 6  # Connect servo signal wire to GP15
-PWM_FREQ = 50   # Standard for most servos (20ms period)
+SERVO_PIN = 6
+PWM_FREQ = 50
 
-TRIG_PIN = 28  # Example: GP28 on the Pico
-ECHO_PIN = 27  # Example: GP27 on the Pico
+TRIG_PIN = 28
+ECHO_PIN = 27
 
 SOUND_SPEED_CM_PER_US = 0.0343 
 MAX_DISTANCE_CM = 500
 
-# --- Servo Setup ---
+# Servo Setup
 # Create a PWM object on the specified pin, set frequency
 pwm = machine.PWM(machine.Pin(SERVO_PIN))
 pwm.freq(PWM_FREQ)
@@ -51,12 +50,19 @@ pwm.freq(PWM_FREQ)
 # Convert angle (0-180) to nanosecond pulse width (approx 0.5ms to 2.5ms)
 # For 50Hz (20ms period): ~1ms = 5%, ~2ms = 10% duty cycle range
 def set_angle(angle):
+    """Set angle of servo.
+
+    Converts angle in degrees into a pulse width, then sets a duty cycle for the servo.
+    
+    Args:
+        angle (int): The angle in degrees to turn the servo to.
+    """
     # duty_ns expects microseconds (µs) for 50Hz
     # 500µs for 0 deg, 2500µs for 180 deg (adjust if needed)
     pulse_width_us = 500 + (angle / 180.0) * 2000 # 500µs to 2500µs
     pwm.duty_ns(int(pulse_width_us * 1000)) # Convert µs to ns
     
-# --- USR Setup ---
+# USR Setup
 # Initialize the trigger pin as an output
 trigger = Pin(TRIG_PIN, Pin.OUT)
 trigger.value(0) # Ensure trigger is low initially
@@ -70,12 +76,20 @@ read_count = 0
 start_time = utime.ticks_ms() # Use millisecond ticks for frequency tracking
 
 def get_distance():
-    # 1. Send the 10us Trigger Pulse
+    """Gets distance from distance sensor.
+
+    Returns:
+        int: Distance in centimeters between sensor and object.
+
+    Raises:
+        TimeoutError: Exception raised if distance sensor does not respond quickly. Ususually means something isn't plugged in right.
+    """
+    # Send the 10us Trigger Pulse
     trigger.value(1)
     utime.sleep_us(10)
     trigger.value(0)
 
-    # 2. Wait for the Echo Pulse (Signal HIGH)
+    # Wait for the Echo Pulse (Signal HIGH)
     pulse_start = 0
     pulse_end = 0
 
@@ -93,7 +107,7 @@ def get_distance():
         if utime.ticks_diff(utime.ticks_ms(), timeout) > 200: # Timeout after 200ms
             return -1 # Error/Timeout
 
-    # 3. Calculate Time and Distance
+    # Calculate Time and Distance
     pulse_duration_us = utime.ticks_diff(pulse_end, pulse_start)
 
     # Distance calculation: Distance = (Time * Speed of Sound) / 2
@@ -108,9 +122,16 @@ def get_distance():
 
 sensor_data = []
 
-# --- Network Setup ---
+# Network Setup
 def connect_to_wifi():
-    """Connects the Pico W to the specified Wi-Fi network."""
+    """Connects the Pico W to the specified Wi-Fi network.
+
+    Returns:
+        network.WLAN: The wireless local area network that the Pico tries to connect to.
+
+    Raises:
+        RuntimeError: Raises if Pico fails to connect to Network. Ensure Flask server is running and credentials are correct.
+    """
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.connect(SSID, PASSWORD)
@@ -131,12 +152,17 @@ def connect_to_wifi():
         print( 'IP Address:', status[0] )
         return wlan
 
-# --- Communication Functions ---
+# Communication Functions
 
 def send_data_to_rpi(wlan, uptime):
-    """Sends a POST request with Pico data to the RPI server."""
+    """Sends a POST request with Pico sensor data to the RPI server.
+
+        Args:
+            wlan (network.WLAN): The network that the Pico is connected to
+            uptime (Any): Not sure.
+    """
     global sensor_data
-    # The data the Pico is sending back every three seconds (e.g., sensor readings)
+    # The data the Pico is sending back
     pico_payload = {
         "sensor data": sensor_data 
     }
@@ -151,7 +177,13 @@ def send_data_to_rpi(wlan, uptime):
         print(f"Pico POST failed: {e}")
 
 def get_data_from_rpi():
-    """Fetches data (the list) from the RPI server via a GET request."""
+    """Fetches data from the RPI server via a GET request.
+
+    This function is currently defunct, but could be used in future applications.
+
+    Returns:
+        list: some list of data
+    """
     try:
         response = requests.get(RPI_DATA_URL)
         rpi_data = response.json()
@@ -170,8 +202,14 @@ def get_data_from_rpi():
         print(f"Pico GET failed: {e}")
         return None
 
-# --- Main Loop ---
+# Main Loop
 def main():
+    """Runs main loop.
+
+    Connects to wifi, then begins operating servo and sensor and sending data to Raspberry Pi. Data is only collected on the sweep 
+    from 0 to 180 degrees. The code can be modified to collect in both directions, but currently the single direction is used to 
+    allow time for the data to be sent to the Raspberry Pi.
+    """
     global sensor_data
     try:
         wlan = connect_to_wifi()
@@ -183,35 +221,37 @@ def main():
     # Communication Interval
     SEND_INTERVAL_SECONDS = 0.6
     last_send_time = time.time()
-    
+
+    # Set servo to angle 0
     set_angle(0)
-    time.sleep(0.5)
+    time.sleep(0.5) # Wait for servo to move
     
     while True:
         current_time = time.time()
         uptime = current_time - start_time
         
-         # Sweep from 0 to 180 degrees
+         # Sweep from 0 to 180 degrees in 5 degree increments
         for angle in range(0, 180, 5):
             set_angle(angle)
             utime.sleep_ms(20) # Wait for servo to move
-            sensor_data.append([angle, get_distance()])
+            sensor_data.append([angle, get_distance()]) # add angle and distance data to sensor data list
 
-        # Sweep back from 180 to 0 degrees
+        # Sweep back from 180 to 0 degrees in 5 degree increments
         for angle in range(180, 0, -5):
             set_angle(angle)
             utime.sleep_ms(20) # Wait for servo to move
             
         send_data_to_rpi(wlan, uptime)
-        
+
+        # Reset sensor data for next sweep
         sensor_data = []
         
         last_send_time = current_time
             
-        # --- RPI Initiated Communication (RPI -> Pico) ---
-        # The Pico can check for new RPI data on every loop iteration, 
-        # or less often (e.g., every second), depending on your needs.
+        # RPI Initiated Communication (RPI -> Pico), currently defunct
+        # The Pico can check for new RPI data on every loop iteration, or less often.
         get_data_from_rpi() 
 
 main()
+
 
