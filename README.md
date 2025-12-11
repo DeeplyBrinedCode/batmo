@@ -46,7 +46,7 @@ Ultrasonic Reciever can be taped with electrical tape to Servo chassis
 
 Servo base can be taped with electrical tape to Pico-bot
 
-<img width="581" height="269" alt="image" src="https://github.com/user-attachments/assets/16637ae7-d85f-4a66-ac73-3d791940334f" />
+<img width="581" height="581" alt="image" src="https://github.com/user-attachments/assets/16637ae7-d85f-4a66-ac73-3d791940334f" />
 
 ![IMG_1525](https://github.com/user-attachments/assets/16637ae7-d85f-4a66-ac73-3d791940334f)
 
