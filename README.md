@@ -53,6 +53,7 @@ Servo base can be taped with electrical tape to Pico-bot
 <img width="581" height="775" alt="image" src="https://github.com/user-attachments/assets/2dcc652c-ae4b-43b2-82d5-ca1e24266319" />
 
 
+
 **Code Installation:**
 
 Replace SSID, PASSWORD, and RPI_SERVER_IP in pico/main.py with the relevant strings for your device
