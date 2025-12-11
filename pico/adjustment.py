@@ -1,7 +1,6 @@
 """File to drive PicoBot.
 
 Sets up wifi server for a phone to connect to. The connected phone can then control the PicoBot through a browser.
-This is not our code, it was the code already on the PicoBot.
 """
 import network
 import socket
@@ -174,4 +173,5 @@ except Exception as e:
     for pwm_obj in [pwm_R1, pwm_R2, pwm_L1, pwm_L2]:
         pwm_obj.duty_u16(0)
     time.sleep(1)
+
 
