@@ -38,5 +38,3 @@ def update_plot_from_list(points):
     ax.set_title("Polar Plot of Predefined Points")
     fig.canvas.draw()
     fig.canvas.flush_events()
-    
-update_plot_from_list([[50,20],[20,50]])
