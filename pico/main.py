@@ -1,3 +1,23 @@
+"""File to run on Pico-bot startup.
+
+This file will run upon powering the Pico-bot on, so the Flask server on the Raspberry Pi should already be up and running. 
+Using a connected servo and distance sensor, the code performs a servo sweep and creates a list of data. That data will
+then be sent to the Raspberry Pi over the Flask server.
+
+Attributes:
+    SSID (str): The SSID of the network the Raspberry Pi is connected to.
+    PASSWORD (str): The password of the network the Raspberry Pi is connected to.
+    RPI_SERVER_IP (str): The IP address of the Raspberry Pi.
+    RPI_PORT (int): The Flask port to connect to the Raspberry Pi.
+    SERVO_PIN (int): The GPIO pin on the Pico board to which the servo's signal wire should be connected.
+    PWM_FREQ (int): Frequency for the servo.
+    TRIG_PIN (int): The GPIO pin on the Pico board to which the distance sensor's trigger should be connected.
+    ECHO_PIN (int): The GPIO pin on the Pico board to which the distance sensor's echo should be connected.
+    SOUND_SPEED_CM_PER_US (int): The speed of sound in centimeters per microsecond.
+    MAX_DISTANCE_CM (int): The maximum distance for the distance sensor.
+    pwm
+"""
+
 import network
 import time
 import urequests as requests
@@ -6,10 +26,9 @@ import machine, utime
 from machine import Pin
 import adjustment
 
-# --- Configuration ---
+# CONSTANTS
 SSID = 'SU-ECE-LAB'
 PASSWORD = 'FaraDay8086!'
-# Replace with your Raspberry Pi's actual IP address and Flask port
 RPI_SERVER_IP = '10.133.0.147' 
 RPI_PORT = 5000
 PICO_DATA_URL = f"http://{RPI_SERVER_IP}:{RPI_PORT}/pico_data"
@@ -195,3 +214,4 @@ def main():
         get_data_from_rpi() 
 
 main()
+
