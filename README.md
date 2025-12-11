@@ -26,15 +26,15 @@ S2 unconnected
 
 <img width="581" height="269" alt="image" src="https://github.com/user-attachments/assets/e910def1-6b8f-4961-bba8-65e68d6512c7" />
 
-**Pico-Reciever Connections:**
+**Pico-Receiver Connections:**
 
-Reciever GND to Pico GND
+Receiver GND to Pico GND
 
-Reciever Vcc to Pico 3V *Eliminates need for voltage divider, but decreases range and accuracy
+Receiver Vcc to Pico 3V *Eliminates need for voltage divider, but decreases range and accuracy
 
-Reciever Echo to Pico GPIO27
+Receiever Echo to Pico GPIO27
 
-Reciever Trig to Pico GPIO28
+Receiver Trig to Pico GPIO28
 
 **Hardware Connections:**
 
@@ -42,7 +42,7 @@ Pico-bot has a battery connected to it, just ensure the battery is plugged in
 
 Second Pico can be taped to Pico-bot with electrical tape
 
-Ultrasonic Reciever can be taped with electrical tape to Servo chassis
+Ultrasonic Receiver can be taped with electrical tape to Servo chassis
 
 Servo base can be taped with electrical tape to Pico-bot
 
@@ -59,3 +59,8 @@ Replace SSID, PASSWORD, and RPI_SERVER_IP in pico/main.py with the relevant stri
 Install files in /pico directory to Pico controller using the USB connector and an interpreter
 
 Install files in /rpi directory to Raspberry Pi with git
+
+**Flowchart:**
+
+![Batmo_Diagram](https://github.com/user-attachments/assets/74b4f707-f95b-4750-ace8-e83f0f5b76aa)
+
