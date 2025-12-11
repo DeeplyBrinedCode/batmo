@@ -1,29 +1,53 @@
 # batmo
-Main repository for ECEGR 2000 final project.
+Main repository for ECEGR 2000 final project
 
-Plan:
-Make an RC car that can detect obstacles.
+**Plan:**
+Make an remote controlled car that can detect obstacles
 
-Setup:
+**Setup:**
 
-Servo Connections:
+**Pico-Pico Connections:**
 
-GND to GND (Pin 6)
+Both Picos should be placed side by side, with VSYS and GND connected
 
-Vcc to 5V (Pin 4) or to 3V (Pin 1)
+Any GPIO pin connected or file uploaded can be done to either Pico
 
-S1 to GPIO14 (Pin 8)
+**Pico-Servo Connections:**
+
+Servo GND (brown wire) to Pico GND
+
+Servo Vcc (red wire) to Pico 3v3 or Pico 5v if available
+
+S1 (orange wire) to Pico GPIO6
 
 S2 unconnected
 
 <img width="581" height="269" alt="image" src="https://github.com/user-attachments/assets/e910def1-6b8f-4961-bba8-65e68d6512c7" />
 
-Ultrasonic Distance Sensor Connections:
+**Pico-Reciever Connections:**
 
-GND to GND (Pin ?)
+Reciever GND to Pico GND
 
-Vcc to 3V (Pin ?) *Eliminates need for voltage divider, but decreases range from 100cm to 84cm
+Reciever Vcc to Pico 3V *Eliminates need for voltage divider, but decreases range and accuracy
 
-Echo to GPIO24 (Pin ?)
+Reciever Echo to Pico GPIO27
 
-Trig to GPIO23 (Pin ?)
+Reciever Trig to Pico GPIO28
+
+**Hardware Connections:**
+
+Pico-bot has a battery connected to it, just ensure the battery is plugged in
+
+Second Pico can be taped to Pico-bot with electrical tape
+
+Ultrasonic Reciever can be taped with electrical tape to Servo chassis
+
+Servo base can be taped with electrical tape to Pico-bot
+
+**Code Installation:**
+
+Replace SSID, PASSWORD, and RPI_SERVER_IP in pico/main.py with the relevant strings for your device
+
+Install files in /pico directory to Pico controller using the USB connector and an interpreter
+
+Install files in /rpi directory to Raspberry Pi with git
