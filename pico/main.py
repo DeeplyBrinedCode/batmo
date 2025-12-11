@@ -149,10 +149,13 @@ def connect_to_wifi():
 
 # Communication Functions
 
-def send_data_to_rpi():
+def send_data_to_rpi(wlan):
     """Sends a POST request with Pico sensor data to the RPI server.
 
     Packages sensor_data into the pico_payload with a dictionary key, then sends it.
+
+    Args:
+        wlan (network.WLAN): The wireless local area network that the Pico tries to connect to.
     """
     global sensor_data
     # The data the Pico is sending back
@@ -225,7 +228,7 @@ def main():
             set_angle(angle)
             utime.sleep_ms(20) # Wait for servo to move
             
-        send_data_to_rpi()
+        send_data_to_rpi(wlan)
 
         # Reset sensor data for next sweep
         sensor_data = []
@@ -235,6 +238,7 @@ def main():
         get_data_from_rpi() 
 
 main()
+
 
 
 
